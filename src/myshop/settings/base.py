@@ -37,7 +37,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = ["shop.apps.ShopConfig"]
 
 THIRD_PARTY_APPS = []
 
