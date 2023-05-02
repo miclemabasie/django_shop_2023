@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -14,7 +15,10 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
     def __str__(self):
-        return str({self.name})
+        return str(self.name)
+
+    def get_absolute_url(self):
+        return reverse("shop:product_list_by_category", kwargs={"slug": self.slug})
 
 
 class Product(models.Model):
@@ -42,3 +46,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("shop:product_detail", kwargs={"id": self.id, "slug": self.slug})
