@@ -37,7 +37,10 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["shop.apps.ShopConfig"]
+LOCAL_APPS = [
+    "shop.apps.ShopConfig",
+    "cart.apps.CartConfig",
+]
 
 THIRD_PARTY_APPS = []
 
@@ -116,6 +119,8 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CART_SESSION_ID = "cart"
 
 import logging
 import logging.config

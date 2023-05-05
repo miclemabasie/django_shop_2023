@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
+from django.http import HttpResponse
 
 
 def product_list(request, category_slug=None):
@@ -17,6 +18,7 @@ def product_list(request, category_slug=None):
         "category": category,
         "categories": categories,
         "products": products,
+        "categories": categories,
     }
 
     return render(request, template_name, context)
