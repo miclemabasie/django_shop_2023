@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from shop.models import Product
-from cart import Cart
+from .cart import Cart
 from .forms import CartAddProductForm
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 @require_POST
@@ -32,3 +34,20 @@ def cart_detail(request):
         "cart": cart,
     }
     return render(request, template_name, context)
+
+
+# Test function for data submissions
+
+
+@csrf_exempt
+def testing(request):
+    if request.method == "POST":
+        print("This is a post request")
+        print(request.POST)
+        data = {
+            "name": request.POST.get("username"),
+            "password": request.POST.get("password"),
+        }
+
+        return JsonResponse(data, safe=False)
+    return HttpResponse("This is some testing page")
