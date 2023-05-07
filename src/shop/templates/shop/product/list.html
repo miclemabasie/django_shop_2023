@@ -9,9 +9,18 @@
 </head>
 
 <body>
-    {% for item in cart %}
-        {{item.product.name}}
-    {% endfor %}
+    <div class="cart">
+        {% with total_items=cart|length %}
+          {% if total_items > 0 %}
+            Your Cart:
+            <a href="{% url "cart:cart_detail" %}">
+                {{total_items}} item{{ total_items|pluralize}}, ${{cart.get_total_price}}
+            </a>
+            {% else %}
+            <p>Your Cart is empty</p>
+          {% endif %}
+        {% endwith %}
+    </div>
     <h1>List of products {% if category %}for {{category}} {% endif %}</h1>
     {% for product in products %}
         <a href="{{product.get_absolute_url}}"><h1>{{product.name}}</h1></a>
