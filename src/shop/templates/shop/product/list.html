@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    {% for item in cart %}
+        {{item.product.name}}
+    {% endfor %}
     <h1>List of products {% if category %}for {{category}} {% endif %}</h1>
     {% for product in products %}
         <a href="{{product.get_absolute_url}}"><h1>{{product.name}}</h1></a>
