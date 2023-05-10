@@ -43,6 +43,7 @@ LOCAL_APPS = [
     "orders.apps.OrdersConfig",
 ]
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 THIRD_PARTY_APPS = []
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
