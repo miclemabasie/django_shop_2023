@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Pay by credit card</h1>
+
+    <form id="paymentid" action="" method="post">
+        <label for="card-number">Card Number</label>
+        <div id="card-number" class="field"></div>
+
+        <label for="cvv">CVV</label>
+        <div id="cvv" class="field"></div>
+
+        <label for="expiration">Expiration</label>
+        <div id="expiration-date" class="field"></div>
+
+        <input type="hidden" id="nonce" value="" name="payment_method_nonce">
+        {% csrf_token %}
+        <input type="submit" value="Pay" id="submit">
+    </form>
+
+    <!-- Include the Braintree's JS client SDK -->
+    <script src="https://js.braintreegateway.com/web/3.44.2/js/client.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.44.2/js/hosted-fields.min.js"></script>
+    <script>
+        var form = document.getElementById("paymentid")
+        var submit = document.getElementById("submit")
+
+        braintree.client.create({
+            authorization: '{{client_token}}'
+        }, function (clientErr, clientInstance) {
+            if (clientErr) {
+                console.error(clientErr)
+                return
+            }
+
+
+            braintree.hostedFields.create({
+                client: clientInstance,
+                styles: {
+                    'input': { 'font-size': '13px' },
+                    'input.invalid': { 'color': 'red' },
+                    'input.valid': { 'color': 'green' },
+                },
+                fields: {
+                    number: { selector: "#card-number" },
+                    cvv: { selector: "#cvv" },
+                    expirationDate: { selector: "#expiration-date" }
+                }
+            }, function (hostedFieldsErr, hostedFieldsInstance) {
+                if (hostedFieldsErr) {
+                    console.error(hostedFieldsErr)
+                    return;
+                }
+                submit.removeAttribute('disabled')
+
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault()
+                    hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+                        if (tokenizeErr) {
+                            console.error(tokenizeErr)
+                            return;
+                        }
+                        // set nonce to send to the server
+                        //document.getElementById("nonce").value = payload.nonce;
+                        // submit the form
+                        //var myForm = document.getElementById("paymentid");
+                        //myForm.submit();
+
+                        // Get the form element
+                        const myForm = document.getElementById('paymentid');
+
+                        // Create a "submit" event
+                        const submitEvent = new Event('submit');
+
+                        // Dispatch the "submit" event on the form
+                        myForm.dispatchEvent(submitEvent);
+                        console.log("Form was successfully submited")
+
+                    })
+                }, false)
+            })
+
+        })
+    </script>
+</body>
+
+</html>

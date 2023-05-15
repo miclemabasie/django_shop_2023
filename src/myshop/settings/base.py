@@ -41,6 +41,7 @@ LOCAL_APPS = [
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
+    "payment.apps.PaymentConfig",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -163,4 +164,20 @@ logging.config.dictConfig(
             "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
         },
     }
+)
+
+# Braintree Gateway intergration
+
+import braintree
+
+BRAINTREE_MERCHANT_ID = env("BRAINTREE_MERCHANT_ID")
+BRAINTREE_PUBLIC_KEY = env("BRAINTREE_PUBLIC_KEY")
+BRAINTREE_PRIVATE_KEY = env("BRAINTREE_PRIVATE_KEY")
+
+# settings
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY,
 )
