@@ -6,6 +6,15 @@ import csv
 import datetime
 from django.http import HttpResponse
 
+# Adminstration custom views
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+
+
+def order_detail(obj):
+    url = reverse("orders:admin_order_detail", args=[obj.id])
+    return mark_safe(f'<a href="{url}">View</a>')
+
 
 # def export_to_csv(modeladmin, request, queryset):
 #     opts = modeladmin.model._meta
@@ -28,7 +37,7 @@ from django.http import HttpResponse
 #             value = getattr(obj, field.name)
 #             if isinstance(value, datetime.datetime):
 #                 value = value.strftime("%d/%m/%Y")
-#             data_row.append(data_row)
+#             data_row.append(value)
 #         writer.writerow(data_row)
 #     return response
 
@@ -91,6 +100,7 @@ class OrderAdmin(admin.ModelAdmin):
         "paid",
         "created",
         "updated",
+        order_detail,
     ]
     list_filter = ["paid", "created", "updated"]
     inlines = [OrderItemInline]
