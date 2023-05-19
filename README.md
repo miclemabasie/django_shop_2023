@@ -7,3 +7,9 @@
   * Configure Celery in the project with RabbitMQ as a message broker
   * Send asynchronous notifications to customers using Celery
   * Monitor Celery using Flower
+
+# Managing Payments and Orders
+  * Intergate a payment gateway into your project
+  * Export orders to CSV files
+  * Create custom views for the administration site
+  * Generate PDF invoices dynamically on order completion
