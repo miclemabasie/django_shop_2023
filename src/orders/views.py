@@ -12,6 +12,12 @@ from cart.cart import Cart
 from .tasks import order_created
 from django.core.mail import send_mail
 
+# Pdf generation
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+
 
 def order_create(request):
     cart = Cart(request)
@@ -56,3 +62,17 @@ def admin_order_detail(request, order_id):
     }
 
     return render(request, template_name, context)
+
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    context = {"order": order}
+    template_name = "orders/order/pdf.html"
+    html = render_to_string(template_name, context)
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disosition"] = f"filename=order_{order.id}.pd"
+    weasyprint.HTML(string=html).write_pdf(
+        response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "css/pdf.css")]
+    )
+    return response
