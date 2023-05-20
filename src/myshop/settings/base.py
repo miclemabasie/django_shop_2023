@@ -42,6 +42,7 @@ LOCAL_APPS = [
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
     "payment.apps.PaymentConfig",
+    "coupons.apps.CouponsConfig",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
