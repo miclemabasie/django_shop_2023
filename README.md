@@ -45,3 +45,6 @@
   3. If the language is not set in the session, it looks for an exisiting cookie with the current language. A custom name for this cookie can be provided in the ```LANGUAGE_NAME``` setting. By default, the name for this cookie is ```django_language```.
   4. If no cookie is found, it looks for the ```Accept-Language``` HTTP header of the request.
   5. If the ```Accept-Language``` header does not specify a language, Django uses the language defined in the ```LANAGUAGE_CODE``` settings.
+
+By default, Django will use the language defined in the ```LANGUGAE_CODE``` settings unless you are using ```LocalMiddleware```. The process described only applies when using middleware.
+

@@ -1,5 +1,6 @@
 import environ
 import os
+from django.utils.translation import gettext_lazy as _
 
 env = environ.Env(
     # set casting, default value
@@ -45,14 +46,17 @@ LOCAL_APPS = [
     "coupons.apps.CouponsConfig",
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "rosetta",
+]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -104,7 +108,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
+LANGUAGES = (
+    ("en", _("English")),
+    ("es", _("Spanish")),
+)
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale/"),
+]
 
 TIME_ZONE = "UTC"
 

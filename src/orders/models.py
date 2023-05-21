@@ -3,18 +3,19 @@ from shop.models import Product
 from coupons.models import Coupon
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+from django.utils.translation import gettext_lazy as _
 
 
 class Order(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField()
-    address = models.CharField(max_length=250)
-    postal_code = models.CharField(max_length=20)
-    city = models.CharField(max_length=100)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    paid = models.BooleanField(default=False)
+    first_name = models.CharField(_("First Name"), max_length=50)
+    last_name = models.CharField(_("Last Name"), max_length=50)
+    email = models.EmailField(_("Email"))
+    address = models.CharField(_("address"), max_length=250)
+    postal_code = models.CharField(_("Postal code"), max_length=20)
+    city = models.CharField(_("City"), max_length=100)
+    created = models.DateTimeField(_("Created"), auto_now_add=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True)
+    paid = models.BooleanField(_("Paid"), default=False)
     braintree_id = models.CharField(max_length=150, blank=True)
 
     coupon = models.ForeignKey(
