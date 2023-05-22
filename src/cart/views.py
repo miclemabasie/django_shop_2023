@@ -6,6 +6,7 @@ from .forms import CartAddProductForm
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from coupons.forms import CouponApplyForm
+from shop.recommender import Recommender
 
 
 @require_POST
@@ -37,10 +38,14 @@ def cart_detail(request):
             initial={"quantity": item["quantity"], "override": True}
         )
     coupon_apply_form = CouponApplyForm()
+    r = Recommender()
+    cart_products = [item["product"] for item in cart]
+    recommended_products = r.suggest_products_for(cart_products, max_results=4)
     template_name = "cart/detail.html"
     context = {
         "cart": cart,
         "coupon_apply_form": coupon_apply_form,
+        "recommended_products": recommended_products,
     }
     return render(request, template_name, context)
 

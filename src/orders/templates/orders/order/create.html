@@ -26,7 +26,7 @@
             {% endfor %}
             {% if cart.coupon %}
             <li>
-                "{% trans cart.coupon.code %}" ({% trans cart.coupon.discount %}% {% trans 'off' %})
+                "{% trans cart.coupon.code %}" {{ cart.coupon.discount}}{% trans 'off' %})
                 <span class="neg">- ${{ cart.get_discount|floatformat:2 }}</span>
             </li>
             {% endif %}
